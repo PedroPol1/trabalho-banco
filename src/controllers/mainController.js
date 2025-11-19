@@ -1,13 +1,12 @@
 import driver from "../config/neo4j.js";
 import { obterRelatorioIntegrado } from "../services/dataIntegrationService.js";
 
-// Rota de teste simples
+
 export const healthCheck = (req, res) => {
   res.send("API rodando perfeitamente!");
 };
 
-// Lógica do Neo4j
-export const criarPessoaNeo4j = async (req, res) => { // <-- Função Corrigida
+export const criarPessoaNeo4j = async (req, res) => { 
   const session = driver.session();
   try {
     const result = await session.run(
@@ -22,8 +21,6 @@ export const criarPessoaNeo4j = async (req, res) => { // <-- Função Corrigida
     await session.close();
   }
 };
-
-// Lógica da Integração (Postgres + BaseX)
 export const getRelatorio = async (req, res) => {
   try {
     const dados = await obterRelatorioIntegrado();
