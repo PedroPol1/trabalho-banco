@@ -1,36 +1,19 @@
 import express from "express";
-import driver from "./neo.js";
+import dotenv from "dotenv";
+import routes from "./src/routes.js"; // Correto para default export
 
+dotenv.config(); 
 
 const app = express();
-const PORT = 3004;
+const PORT = process.env.PORT || 3004;
+
 app.use(express.json());
 
-app.get("/", (req, res) => res.send("rodando"));
+// LINHA CRÍTICA REINTRODUZIDA: Sem ela, nenhuma rota funciona.
+app.use(routes); 
 
-app.post("/", async (req, res) => {
-  const session = driver.session();
-  try {
-    const result = await session.run(
-      `CREATE (p:Pessoa {nome: $nome}) RETURN p`,
-      { nome: req.body.nome }
-    );
-    res.json(result.records[0].get("p").properties);
-  } finally {
-    await session.close();
-  }
+app.listen(PORT, () => {
+console.log(`Servidor rodando em http://localhost:${PORT}`);
+ console.log(` Integração: http://localhost:${PORT}/relatorio/integrado`);
+ console.log(` Neo4j: POST http://localhost:${PORT}/neo4j/pessoa`);
 });
-
-app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));
-
-import fetch from "node-fetch";
-
-(async () => {
-  const resp = await fetch(`http://localhost:${PORT}/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nome: "joao" })
-  });
-  
-  console.log(await resp.json());
-})();
