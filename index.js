@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import routes from "./src/routes.js"; // Correto para default export
+import routes from "./src/routes.js"; 
 
 dotenv.config(); 
 
@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3004;
 
 app.use(express.json());
 
-// LINHA CRÍTICA REINTRODUZIDA: Sem ela, nenhuma rota funciona.
+
 app.use(routes); 
 
 app.listen(PORT, () => {

@@ -9,7 +9,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const { Pool } = pkg;
 
-// Usa valores do .env OU valores padrão se o .env falhar
+
 const pool = new Pool({
   user: process.env.PG_USER || 'postgres',
   host: process.env.PG_HOST || 'localhost',
