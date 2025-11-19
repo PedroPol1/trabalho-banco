@@ -10,12 +10,12 @@ const session = new basex.Session(
 );
 export const runQuery = (query) => {
   return new Promise((resolve, reject) => {
-    // 💡 MUDANÇA CRÍTICA AQUI: Prefixar a query com 'XQUERY '
+
     const fullCommand = `XQUERY ${query}`; 
 
     session.execute(fullCommand, (error, response) => {
       if (error) {
-        // Se o erro ainda for 'undefined', pelo menos temos a query formatada
+       
         reject(error);
       } else {
         resolve(response.result);
